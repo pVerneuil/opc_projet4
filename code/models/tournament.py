@@ -18,6 +18,5 @@ class Tournament:
         self.number_of_rounds = number_of_rounds
         self.players = []
 
-    def create_round(self, number_of_round):
+    def create_round(self): #a mettre dans le controler
         pass
-    
