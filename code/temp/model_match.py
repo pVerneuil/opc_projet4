@@ -1,5 +1,7 @@
 class Match:
-    def __init__(self, designation, players): #designation for lack of better terms for now
+    def __init__(
+        self, designation, players
+    ):  # designation for lack of better terms for now
         self.designation = designation
         self.players = players
         self.winner

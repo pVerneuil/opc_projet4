@@ -17,6 +17,3 @@ class Tournament:
         self.descrition = description
         self.number_of_rounds = number_of_rounds
         self.players = []
-
-    def create_round(self): #a mettre dans le controler
-        pass
