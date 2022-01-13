@@ -6,3 +6,4 @@ print(a)
 
 if a["main_menu_choice"] == "Ajouté un joueur":
     b = prompt(add_player_questions,style=style)
+print(b)

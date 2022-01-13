@@ -25,10 +25,8 @@ class Interface:
 
     def menu(self):
         menu = {"type": self.type, "name": self.name, "message": self.message}
-        if hasattr(self, "validator"):
+        if self.validator != None:
             menu.update({"validate": self.validator})
-        if hasattr(self, "choices"):
+        if self.choices != None:
             menu.update({"choices": self.choices})
         return menu
-a=Interface("input", "first_name", "Entrer le prénom du joueur:").menu()
-print(a)
