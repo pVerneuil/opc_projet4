@@ -1,7 +1,7 @@
 from PyInquirer import prompt, Separator, Token, style_from_dict
 from prompt_toolkit.validation import Validator, ValidationError
 from six import b
-
+# TODO rename template
 style = style_from_dict(
     {
         Token.Separator: "#673ab7 bold underline",
