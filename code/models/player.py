@@ -1,3 +1,4 @@
+from controllers.data_controller import *
 class Player:
     def __init__(
         self,
@@ -12,3 +13,7 @@ class Player:
         self.date_of_birth = date_of_birth
         self.gender = gender
         self.ranking = ranking
+    
+    def add_player_db(data_player):
+        DataController.add_one_to_db(table=players_table,data=data_player)
+
