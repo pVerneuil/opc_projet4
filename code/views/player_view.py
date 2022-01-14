@@ -1,7 +1,7 @@
 from PyInquirer import prompt, Separator, Token, style_from_dict
 from prompt_toolkit.validation import Validator, ValidationError
 import re
-from model_view import *
+from models.template import *
 
 add_player_questions = [
     Interface("input", "first_name", "Entrer le prénom du joueur:").menu(),
@@ -12,5 +12,3 @@ add_player_questions = [
     Interface("input", "gender", "Entrer le sexe du joueur (M/F):").menu(),
     Interface("input", "ranking", "Entrer le classement du joueur:").menu(),
 ]
-print(add_player_questions)
-#prompt(add_player_questions,style= style)

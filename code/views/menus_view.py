@@ -1,5 +1,4 @@
-from model_view import *
-
+from models.template import *
 
 main_menu = Interface(
     "list",
