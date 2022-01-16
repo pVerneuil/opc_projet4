@@ -1,1 +1,1 @@
-{"players": {"1": {}, "2": {}, "3": {}}}
+{"players": {"1": {"first_name": "hello", "last_name": "Test", "date_of_birth": "12/12/2022", "gender": "M", "ranking": "12"}, "2": {}, "3": {"first_name": "paul", "last_name": "Verneuil", "date_of_birth": "12/01/1000", "gender": "F", "ranking": "1000"}, "4": {"first_name": "zert", "last_name": "ert", "date_of_birth": "10/10/1000", "gender": "M", "ranking": "100"}}}

@@ -1,16 +1,17 @@
+from xmlrpc.client import boolean
 from PyInquirer import prompt, Separator, Token, style_from_dict
-from prompt_toolkit.validation import Validator, ValidationError
-from six import b
+
+
 # TODO rename template
 style = style_from_dict(
     {
-        Token.Separator: "#673ab7 bold underline",
-        Token.QuestionMark: "#673ab7 bold",
-        Token.Selected: "#cc5454",  # default
-        Token.Pointer: "#673ab7 bold",
-        Token.Instruction: "",  # default
-        Token.Answer: "#f44336 bold",
-        Token.Question: "",
+        Token.Separator: '#673ab7 bold underline',
+        Token.QuestionMark: '#673ab7 bold',
+        Token.Selected: '#cc5454',  # default
+        Token.Pointer: '#673ab7 bold',
+        Token.Instruction: '',  # default
+        Token.Answer: '#f44336 bold',
+        Token.Question: '',
     }
 )
 
@@ -24,9 +25,19 @@ class Interface:
         self.validator = validator
 
     def menu(self):
-        menu = {"type": self.type, "name": self.name, "message": self.message}
+        menu = {'type': self.type, 'name': self.name, 'message': self.message}
         if self.validator != None:
-            menu.update({"validate": self.validator})
+            menu.update({'validate': self.validator})
         if self.choices != None:
-            menu.update({"choices": self.choices})
+            menu.update({'choices': self.choices})
         return menu
+    
+    def confirm(message:str)-> bool :
+        menu =     {
+        'type': 'confirm',
+        'message': message,
+        'name': 'confirm',
+        'validate': 'YesOrNoValidator'
+        }
+        a=prompt(menu)
+        return a['confirm']
