@@ -35,8 +35,8 @@ class GenderValidator(Validator):
 
 class YesOrNoValidator(Validator):  # !* That not working!!!
     def validate(self, document):
-        ok = re.match('^[YN]{1}$', document.text)
+        ok = re.match('^[ON]{1}$', document.text)
         if not ok:
             raise ValidationError(
-                message='Veuillez entrer Y(oui) ou N(non).',
+                message='Veuillez entrer O(oui) ou N(non).',
                 cursor_position=len(document.text))  

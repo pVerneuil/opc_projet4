@@ -3,13 +3,12 @@ from models.template import *
 main_menu = Interface(
     "list",
     "main_menu_choice",
-    "=== Menu Principal===",
+    "=======  Menu Principal  =======",
     choices=[
         Separator("= Tournois ="),
         "Créer un tournois",
         "Charger un tournois",
         Separator("= Joueurs ="),
-        "Consulter les joueurs",
         "Ajouté un joueur",
         "Modifier le classement",
         Separator("= Rapports ="),

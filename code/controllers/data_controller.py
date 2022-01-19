@@ -11,3 +11,7 @@ class DataController:
 
     def add_many_to_db(data, table):
         table.insert_multiple(data)
+
+    def fetch_all_data_from_table(table):
+        return table.all()
+    

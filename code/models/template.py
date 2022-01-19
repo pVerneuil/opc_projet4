@@ -1,8 +1,11 @@
 from xmlrpc.client import boolean
 from PyInquirer import prompt, Separator, Token, style_from_dict
+from controllers.input_validation import YesOrNoValidator
+from texttable import Texttable
 
 
-# TODO rename template
+
+
 style = style_from_dict(
     {
         Token.Separator: '#673ab7 bold underline',
@@ -34,10 +37,13 @@ class Interface:
     
     def confirm(message:str)-> bool :
         menu =     {
-        'type': 'confirm',
+        'type': 'input',
         'message': message,
         'name': 'confirm',
-        'validate': 'YesOrNoValidator'
+        'validate': YesOrNoValidator
         }
-        a=prompt(menu)
-        return a['confirm']
+        answer=prompt(menu, style=style)
+        result=False
+        if answer['confirm']=='O':
+            result= True
+        return result
