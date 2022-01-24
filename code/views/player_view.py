@@ -23,7 +23,7 @@ class Table_display:
         t.add_rows(display_table)
         print(t.draw())
 
-    def diplay__and_select_players(data_from_player_table):
+    def display_and_select_players(data_from_player_table):
 
         list_player_string = [Separator("{:<18} | {:<16} | {:<10} | {:<5} | {:<10} | {:5}".format("Prénom" , "Nom", "Naissance", "Sexe", "Classment", "ID"))]
         for player in data_from_player_table:

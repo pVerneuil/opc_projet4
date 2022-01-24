@@ -1,3 +1,4 @@
+from re import A
 from tinydb import TinyDB, Query
 
 db = TinyDB("data/db.json")
@@ -15,3 +16,6 @@ class DataController:
     def fetch_all_data_from_table(table):
         return table.all()
     
+    def get_document_by_id(table, id):
+        return table.get(doc_id = id)
+
