@@ -122,19 +122,40 @@ def test():
             break
 test()
 """
+#TODO gerer l'instenciation de round
+#TODO cheker si les matche sont bien fait
+#TODO git
 
-i=1
-match_found= False
-while i < len(available_players) and not match_found:
-    print(f'i= {i}')
-    print(check_if_players_met(available_players[0],available_players[i],tournament_rounds))    
-    if not check_if_players_met(available_players[0],available_players[i],tournament_rounds) :
-        round2.register_match(available_players.pop(0),available_players.pop(i))
-        match_found = True
-    print(match_found)
-    
-    i+=1
+print(round2.matchs)
+print(len(available_players))
+while len(available_players) > 2 :
+    i = 1
+    match_found = False
+    while i < len(available_players) and not match_found:
+        print(f'i = {i}')
+        print('player have met')
+        print(check_if_players_met(available_players[0],available_players[i],tournament_rounds))    
+        if not check_if_players_met(available_players[0],available_players[i],tournament_rounds) :
+            round2.register_match(available_players.pop(0),available_players.pop(i))
+            match_found = True
+        print(f"matchfound {match_found}")
+
+        i += 1
+        if i == len(available_players) : 
+            round2.register_match(available_players.pop(0),available_players.pop(0))
+
+
+
+        print(len(available_players))
+if len(available_players) == 2 :
+    round2.register_match(available_players.pop(0),available_players.pop(0))
+
+print(len(available_players))
+print(round2.matchs)
 
 '''
+i=1
+len=5 
+P1 P2 P3 P4 P5
 '''
     
