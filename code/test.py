@@ -65,7 +65,8 @@ for match in tournament_rounds[number_of_round_played].matchs:
     match[0][0].set_score(r/2)
     match[1][1] = 1-r/2
     match[1][0].set_score(1-r/2)
-    
+
+number_of_round_played += 1 #!REMOVE/remplace LATER
 #display results
 for player in players_in_the_tournament:
     print(f'le joueur {player.id} a un score de {player.score}')
@@ -75,10 +76,9 @@ sorted_test = sorted(players_in_the_tournament, key = lambda x : (x.score, x.elo
 for player in sorted_test:
     print(f'id : {player.id}| score : {player.score} | elo {player.elo}')
 
-@snoop
+
 def check_if_players_met(player1, player2,rounds):
     round_checked = 0
-    print(len(tournament_rounds) )
     have_met = False
     while round_checked <len(tournament_rounds):
         for round in rounds:
@@ -91,24 +91,50 @@ def check_if_players_met(player1, player2,rounds):
                         have_met = True
         round_checked += 1
     return have_met
-'''
+
 '''
 l = check_if_players_met(sorted_test[1],sorted_test[0],tournament_rounds)
 print(l)
+'''
 
 
 available_players = copy.copy(sorted_test)
+print(f'round{number_of_round_played+1}')
+round2 = Round(f'round{number_of_round_played+1}','heure&datehere')
+#@snoop
+"""
 def test():
-    condition1 = condition(sorted_test,available_players) #! rename condition
-    while condition1: #! rename condition
-        i= 0
-        while not check_if_players_met(available_players[0],available_players[i+1],tournament_rounds): #!round arent the real name
-            Round.register_match(available_players.pop(0),available_players.pop(i+1),tournament_rounds)#! same here
+    while len(available_players) > 1:
+        i = 0
+        print(f'joueur dispo = {len(available_players)}')
+        its_a_match = False
+        while not its_a_match:
+            if not check_if_players_met(available_players[0],available_players[i+1],tournament_rounds):
+                round2.register_match(available_players.pop(0),available_players.pop(i))
+                its_a_match = True
+                print('match first atempts')
             i+=1
+            print(i)
             if i > len(available_players):
-                Round.register_match(available_players.pop(0),available_players.pop(1),tournament_rounds)
-                break
-        condition1 = condition(sorted_test,available_players) #! rename condition
+                round2.register_match(available_players.pop(0),available_players.pop(1))
+                its_a_match = True
+                print('match x atempt')
+            break
 test()
 """
-"""
+
+i=1
+match_found= False
+while i < len(available_players) and not match_found:
+    print(f'i= {i}')
+    print(check_if_players_met(available_players[0],available_players[i],tournament_rounds))    
+    if not check_if_players_met(available_players[0],available_players[i],tournament_rounds) :
+        round2.register_match(available_players.pop(0),available_players.pop(i))
+        match_found = True
+    print(match_found)
+    
+    i+=1
+
+'''
+'''
+    
