@@ -1,10 +1,22 @@
-from models.template import *
-from views.player_view import *
 from models.player import *
+from controllers.data_controller import *
 
 
-class PlayerController:
-    def get_info():
-        player_inputs = prompt(add_player_questions,style=style)
-        player_inputs['ranking'] = int(player_inputs['ranking'])
-        return player_inputs
+class Player_controller:
+    def instantiate_from_db_by_id(id_db):
+        """instantiate a player from its database id
+
+        Args:
+            id_db (int): id of a player
+        """
+        player_data = DataController.get_document_by_id(players_table,id_db)
+        player =  Player(
+            player_data["first_name"],
+            player_data["last_name"],
+            player_data["date_of_birth"],
+            player_data["gender"],
+            player_data["ranking"],
+            id_db,
+        )
+        return player
+

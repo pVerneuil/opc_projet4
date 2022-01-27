@@ -1,7 +1,7 @@
+"""
 import random 
 import copy
 from test1 import *
-import snoop
 
 class Player:
     def __init__(self,id,elo,score=0) :
@@ -38,14 +38,12 @@ for id in players_id_sorted:
     elo-= 10
 #!first round
 
-#even thing only append the first time I think
-
 if not is_even(len(players_in_the_tournament)):
     players_in_this_round = copy.copy(players_in_the_tournament)
     players_in_the_tournament.pop().set_score(1)
 else : 
     players_in_this_round  = copy.copy(players_in_the_tournament)
-#eventually loop here with sorted player list
+
 
 
 
@@ -68,9 +66,6 @@ for match in tournament_rounds[number_of_round_played].matchs:
 
 number_of_round_played += 1 #!REMOVE/remplace LATER
 #display results
-for player in players_in_the_tournament:
-    print(f'le joueur {player.id} a un score de {player.score}')
-    print(player.elo)
 
 sorted_test = sorted(players_in_the_tournament, key = lambda x : (x.score, x.elo ),reverse=True)
 for player in sorted_test:
@@ -92,38 +87,15 @@ def check_if_players_met(player1, player2,rounds):
         round_checked += 1
     return have_met
 
-'''
-l = check_if_players_met(sorted_test[1],sorted_test[0],tournament_rounds)
-print(l)
-'''
+
 
 
 available_players = copy.copy(sorted_test)
 print(f'round{number_of_round_played+1}')
 round2 = Round(f'round{number_of_round_played+1}','heure&datehere')
-#@snoop
-"""
-def test():
-    while len(available_players) > 1:
-        i = 0
-        print(f'joueur dispo = {len(available_players)}')
-        its_a_match = False
-        while not its_a_match:
-            if not check_if_players_met(available_players[0],available_players[i+1],tournament_rounds):
-                round2.register_match(available_players.pop(0),available_players.pop(i))
-                its_a_match = True
-                print('match first atempts')
-            i+=1
-            print(i)
-            if i > len(available_players):
-                round2.register_match(available_players.pop(0),available_players.pop(1))
-                its_a_match = True
-                print('match x atempt')
-            break
-test()
-"""
+
 #TODO gerer l'instenciation de round
-#TODO cheker si les matche sont bien fait
+
 #TODO git
 
 print(round2.matchs)
@@ -136,7 +108,7 @@ while len(available_players) > 2 :
         print('player have met')
         print(check_if_players_met(available_players[0],available_players[i],tournament_rounds))    
         if not check_if_players_met(available_players[0],available_players[i],tournament_rounds) :
-            round2.register_match(available_players.pop(0),available_players.pop(i))
+            round2.register_match(available_players.pop(0),available_players.pop(i-1))
             match_found = True
         print(f"matchfound {match_found}")
 
@@ -150,12 +122,12 @@ while len(available_players) > 2 :
 if len(available_players) == 2 :
     round2.register_match(available_players.pop(0),available_players.pop(0))
 
-print(len(available_players))
-print(round2.matchs)
 
-'''
+
+for match in round2.matchs:
+    print(f'joueur : {match[0][0].id} VS joueur : {match[1][0].id}')
+
 i=1
 len=5 
 P1 P2 P3 P4 P5
-'''
-    
+"""
