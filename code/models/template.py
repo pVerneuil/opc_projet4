@@ -1,8 +1,6 @@
-from xmlrpc.client import boolean
+
 from PyInquirer import prompt, Separator, Token, style_from_dict
 from controllers.input_validation import YesOrNoValidator
-from texttable import Texttable
-
 
 style = style_from_dict(
     {
@@ -15,7 +13,6 @@ style = style_from_dict(
         Token.Question: "",
     }
 )
-
 
 class Interface:
     def __init__(self, type, name, message, choices=None, validator=None):

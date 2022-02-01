@@ -28,3 +28,6 @@ create_tournament_questions = [
         validator=PositiveIntegerValidator,
     ).menu(),
 ]
+
+# for player in this_tournament.players:
+#     print(f'id : {player.id_db}| score : {player.score} | elo {player.elo}')

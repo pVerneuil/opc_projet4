@@ -1,5 +1,8 @@
 from controllers.input_validation import *
 from models.template import *
+from rich.console import Console
+from rich.table import Table
+
 
 add_player_questions = [
     Interface(
@@ -36,22 +39,25 @@ class PlayerView:
         return player_inputs
 
 
-class Table_display:
-    def display_players(data_from_player_table):
-        display_table = [["Prénom", "Nom", "Naissance", "Sexe", "Classement"]]
+class TableDisplay:
+    def display_players(table_title : str, data_from_player_table):
+        table = Table(title=table_title)
+        
+        table.add_column("Prénom", justify="left", style="#20b7f7", no_wrap=True)
+        table.add_column("Nom", justify="left", style="#20b7f7")
+        table.add_column("Naissance", justify="right", style="#ffba0a")
+        table.add_column("Sexe",style="#00fa9a")
+        table.add_column("Classement",justify="right", style="#d13cd6")
         for player in data_from_player_table:
-            display_table.append(
-                [
+            table.add_row(
                     player["first_name"][:15],
                     player["last_name"][:15],
                     player["date_of_birth"],
                     player["gender"],
-                    player["ranking"],
-                ]
+                    str(player["ranking"])
             )
-        t = Texttable()
-        t.add_rows(display_table)
-        print(t.draw())
+        console = Console()
+        console.print(table)
 
     def display_and_select_players(data_from_player_table):
         
@@ -90,3 +96,24 @@ class Table_display:
             if len(selected_player_id) <8 : print('Veuiller selectionner au moins 8 joueurs')
             else: break
         return selected_player_id
+
+    def display_players_score(table_title : str, tournament_players : list):
+        table = Table(title=table_title)
+        
+        table.add_column("Classement",justify="right", style="#f5310a")
+        table.add_column("Prénom", justify="left", style="#20b7f7", no_wrap=True)
+        table.add_column("Nom", justify="left", style="#20b7f7")
+        table.add_column("Score",style="#00fa9a")
+        table.add_column("elo",justify="right", style="#d13cd6")
+        i = 1
+        for player in tournament_players:
+            table.add_row(
+                    str(i),
+                    player.first_name[:15],
+                    player.last_name[:15],
+                    str(player.score),
+                    str(player.elo)
+            )
+            i += 1
+        console = Console()
+        console.print(table)

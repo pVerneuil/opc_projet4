@@ -1,24 +1,25 @@
 import copy
-from utilities import is_even
+from controllers.utilities import is_even
 
 
 class Round_controller:
     def sort_player_list_by_score_then_elo(player_list):
-        player_list.sort(key=lambda x: (x.score, x.elo), reverse=True)
+        return (player_list.sort(key=lambda x: (x.score, x.elo), reverse=True))
 
-    def reate_matches_for_first_round(
-        players_in_the_tournament_sorted: list, first_round: object
+    def create_matches_for_first_round(
+        players_in_the_tournament: list, first_round: object
     ):
-        if not is_even(len(players_in_the_tournament_sorted)):
-            players_in_this_round = copy.copy(players_in_the_tournament_sorted)
-            players_in_the_tournament_sorted.pop().set_score(1)
+        Round_controller.sort_player_list_by_score_then_elo(players_in_the_tournament)
+        if not is_even(len(players_in_the_tournament)):
+            players_in_this_round = copy.copy(players_in_the_tournament)
+            players_in_this_round.pop().set_score(1)
         else:
-            players_in_this_round = copy.copy(players_in_the_tournament_sorted)
+            players_in_this_round = copy.copy(players_in_the_tournament)
 
         for i in range(0, int(len(players_in_this_round) / 2)):
             first_round.register_match(
                 players_in_this_round[i],
-                players_in_this_round[len(players_in_this_round) - 1 - i],
+                players_in_this_round[int(len(players_in_this_round)/2) +(i)],
             )
 
     def check_if_players_met(player1, player2, rounds):
@@ -38,9 +39,9 @@ class Round_controller:
         while round_checked < len(rounds):
             for round in rounds:
                 for match in round.matchs:
-                    if match[0][0] == player1:
+                    if match[0][0] == player1: 
                         if match[1][0] == player2:
-                            have_met = True
+                            have_met = True  #return have_met = True 
                     elif match[1][0] == player1:
                         if match[0][0] == player2:
                             have_met = True
@@ -50,11 +51,9 @@ class Round_controller:
     def create_matches_for_this_round(
         player_in_the_tournament: list, current_round, rounds
     ):
-        available_players = copy.copy(
-            Round_controller.sort_player_list_by_score_then_elo(
-                player_in_the_tournament
-            )
-        )
+        Round_controller.sort_player_list_by_score_then_elo(
+                player_in_the_tournament)
+        available_players = copy.copy(player_in_the_tournament)        
         while len(available_players) > 2:
             i = 1
             match_found = False
@@ -75,3 +74,5 @@ class Round_controller:
             current_round.register_match(
                 available_players.pop(0), available_players.pop(0)
             )
+        if len(available_players) == 1:
+            available_players[0].set_score(1)

@@ -1,3 +1,6 @@
+from models.round import Round
+
+
 class Tournament:
     def __init__(
         self,
@@ -20,14 +23,22 @@ class Tournament:
         self.rounds = []
 
     def serialize(self):
-        serialized_tournament = {
+        player_id_list = []
+        for player in self.players:
+            player_id_list.append(player.id_db)
+        round_list = []
+        for round in self.rounds:
+            round_list.append(Round.serialize())
+        
+        return({
             'name': self.name, 
-         'venue': self.venue,
-         'starting_date_tounrmanent': self.starting_date_tounrmanent ,
-         'time_format': self.time_format ,
-         'descrition': self.descrition,
-         'number_of_rounds': self.number_of_rounds,
-         'number_of_rounds_played': self.number_of_rounds_played,
-         'players': self.players,  #! that a list of player oblect = not good
-         'rounds': self.rounds}
-        return serialized_tournament
+            'venue': self.venue,
+            'starting_date_tounrmanent': self.starting_date_tounrmanent ,
+            'time_format': self.time_format ,
+            'descrition': self.descrition,
+            'number_of_rounds': self.number_of_rounds,
+            'number_of_rounds_played': self.number_of_rounds_played,
+            'players': player_id_list, 
+            'rounds': round_list
+            })
+        
