@@ -14,7 +14,7 @@ class StringValidator(Validator):
 
 class PositiveIntegerValidator(Validator):
     def validate(self, document):
-        ok = re.match("^[0-9]*$", document.text)
+        ok = re.match("^[0-9]{1,}$", document.text)
         if not ok:
             raise ValidationError(
                 message="Veuillez entrer un entier positif.",

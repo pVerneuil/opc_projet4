@@ -1,14 +1,18 @@
 from datetime import datetime
 from logging import raiseExceptions
-
-
 from models.player import Player
 class Round:
-    def __init__(self, name, matchs = [], start_datetime = None, end_datetime = None) -> None:
+
+    def __init__(self, name) -> None:
         self.name = name
-        self.matchs = matchs
-        self.start_datetime = start_datetime
-        self.end_datetime = end_datetime
+        self.matchs = []
+        
+    # def __init__(self, name, matchs = [], start_datetime = None, end_datetime = None) -> None:
+    #     self.name = name
+    #     self.matchs = matchs
+    #     self.start_datetime = start_datetime
+    #     self.end_datetime = end_datetime
+
 
     def register_match(self, joueur1: object, joueur2: object) -> None:
         match = tuple(([joueur1, 0], [joueur2, 0]))
@@ -40,25 +44,21 @@ class Round:
             'matchs' : matches_list_serialize
             })
 
-    def deserialize(rounds :list):
-        rounds_list = []
-        for round in rounds:
-            matchs_temp = []
-            for match in round['matchs']:
-                player1 = Player.instantiate_from_db_by_id(match[0][0])
-                player2 = Player.instantiate_from_db_by_id(match[1][0])
-                player1.set_score(match[0][1])
-                player2.set_score(match[1][1])
-                matchs_temp.append((
-                    [player1, match[0][1]],
-                    [player1, match[1][1]]
-                    
-                ))
-            this_round = Round(
-                round['name'],
-                start_datetime = round['start_datetime'],
-                end_datetime = round['end_datetime'],
-                matchs = matchs_temp
-                )
-            rounds_list.append(this_round)
-        return rounds_list
+    def deserialize(round :list, players :list):
+        matchs = []
+        for match in round['matchs']:
+            match_temp = list(range(2))
+            for player in players:
+                if getattr(player,'id_db') == match[0][0] :
+                    player.set_score(match[0][1])
+                    match_temp[0] = [player, match[0][1]]
+                if getattr(player,'id_db') == match[1][0] :
+                    player.set_score(match[1][1])
+                    match_temp[1] = [player, match[1][1]]
+            matchs.append(tuple(match_temp))
+        this_round = Round(
+                round['name'])
+        this_round.start_datetime = round['start_datetime'],
+        this_round.end_datetime = round['end_datetime'],
+        this_round.matchs = matchs
+        return this_round

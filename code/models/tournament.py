@@ -28,7 +28,7 @@ class Tournament:
             player_id_list.append(player.id_db)
         round_list = []
         for round in self.rounds:
-            round_list.append(Round.serialize())
+            round_list.append(round.serialize())
         
         return({
             'name': self.name, 
@@ -41,4 +41,6 @@ class Tournament:
             'players': player_id_list, 
             'rounds': round_list
             })
-        
+
+    def deserialize(self):
+        pass
