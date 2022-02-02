@@ -10,7 +10,7 @@ main_menu = Interface(
         "Charger un tournois",
         Separator("= Joueurs ="),
         "Ajouté un joueur",
-        "Modifier le classement",
+        "Modifier le classement des joueurs",
         Separator("= Rapports ="),
         "Liste de tout les joueurs",
         "Liste des joueurs d'un tournois",

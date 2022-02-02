@@ -9,6 +9,7 @@ while True:
     all_player_data = DataController.fetch_all_data_from_table(players_table)
     main_menu_choice = prompt(main_menu, style=style)
     
+    # creation and playing a tournament
     if main_menu_choice["main_menu_choice"] == "Créer un tournois":
         tournament_inputs = prompt(create_tournament_questions, style=style)
         players_id_selected = TableDisplay.display_and_select_players(
@@ -23,8 +24,12 @@ while True:
             TournamentController.play_tournament(this_tournament, this_tournament_id)
         else:
             print("Retour au Menu Principal")
+    # Loading and playing a tournament
+    if main_menu_choice == "Charger un tournois":
+        
+        pass 
             
-    # comment on what this part do
+    # add a player to the database
     if main_menu_choice["main_menu_choice"] == "Ajouté un joueur":
         player_inputs = PlayerView.get_info()
         if Interface.confirm("Confirmer l'enregistrement du joueur? (O/N)"):
@@ -32,13 +37,16 @@ while True:
             print("Joueur Ajouté")
         else:
             print("Retour au Menu Principal")
+    # modify the elo of players
+    if main_menu_choice == "Modifier le classement des joueurs" :
+        pass
             
-    # stop
+    # display all players by adding order
     if main_menu_choice["main_menu_choice"] == "Liste de tout les joueurs":
         while True:
             TableDisplay.display_players("Liste de tous les Joueurs",all_player_data)
             if Interface.confirm("Retouner au menu principal?"):
                 break
-
+    #quit the program
     if main_menu_choice["main_menu_choice"] == "Quitter":
         break
