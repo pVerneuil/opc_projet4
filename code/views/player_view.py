@@ -1,5 +1,6 @@
 from controllers.input_validation import *
 from models.template import *
+from controllers.data_controller import *
 from rich.console import Console
 from rich.table import Table
 
@@ -37,13 +38,55 @@ class PlayerView:
         player_inputs = prompt(add_player_questions, style=style)
         player_inputs["ranking"] = int(player_inputs["ranking"])
         return player_inputs
+    
+    def update_elo_ranking(data):
+        for player_id in TableDisplay.display_and_select_players(data,1, "Veuillez selectioner 1 joueur minimun."):
+            new_elo = Interface(
+                "input",
+                "ranking",
+                "Entrer le classement du joueur:",
+                validator=PositiveIntegerValidator,
+                ).menu()
+            user_inputs = prompt(
+                new_elo, 
+                style=style)
+            input_elo = int(user_inputs['ranking'])
+            DataController.update_by_id(players_table,{'ranking':input_elo},player_id)
+    
+    def player_report(data):
 
+        choice = prompt(Interface(
+            "list",
+            "player_rapport_choice",
+            "Afficher les joueurs par :",
+            choices = [
+                "Ordre alphabétique",
+                "Classement"
+            ]
+        ).menu())
+        if choice["player_rapport_choice"] == "Ordre alphabétique" :
+            sort_on = "last_name"
+            _reverse =False
+            table_title = "Joueurs par Ordre alphabétique"
+        if choice["player_rapport_choice"] == "Classement":
+            sort_on = "ranking"
+            _reverse =True
+            table_title = "Joueurs par Classement elo"
+        sorted_players = sorted(
+            data, 
+            key=lambda d: d[sort_on],
+            reverse=_reverse
+            ) 
+        while True:
+            TableDisplay.display_players(table_title,sorted_players)
+            if Interface.confirm("Retouner au menu principal?"):
+                break
 
 class TableDisplay:
     def display_players(table_title : str, data_from_player_table):
         table = Table(title=table_title)
         
-        table.add_column("Prénom", justify="left", style="#20b7f7", no_wrap=True)
+        table.add_column("Prénom", justify="left", style="#20b7f7")
         table.add_column("Nom", justify="left", style="#20b7f7")
         table.add_column("Naissance", justify="right", style="#ffba0a")
         table.add_column("Sexe",style="#00fa9a")
@@ -59,7 +102,7 @@ class TableDisplay:
         console = Console()
         console.print(table)
 
-    def display_and_select_players(data_from_player_table):
+    def display_and_select_players(data_from_player_table,min_number_of_player:int,error_message:str):
         
         while True:
             list_player_string = [
@@ -83,9 +126,7 @@ class TableDisplay:
                 "checkbox",
                 "checked",
                 "Séléctioner les joueurs :",
-                choices=list_player_string,
-                validator = lambda ans: True if len(ans) > 0
-                    else 'You must choose at least one volume.'
+                choices=list_player_string
                 
             ).menu()
             selected_player = prompt(select_player)["checked"]
@@ -93,7 +134,7 @@ class TableDisplay:
             for player in selected_player:
                 player_id = int(re.split(r"\|", player)[5])
                 selected_player_id.append(player_id)
-            if len(selected_player_id) <8 : print('Veuiller selectionner au moins 8 joueurs')
+            if len(selected_player_id) <min_number_of_player : print(error_message)
             else: break
         return selected_player_id
 
@@ -101,7 +142,7 @@ class TableDisplay:
         table = Table(title=table_title)
         
         table.add_column("Classement",justify="right", style="#f5310a")
-        table.add_column("Prénom", justify="left", style="#20b7f7", no_wrap=True)
+        table.add_column("Prénom", justify="left", style="#20b7f7")
         table.add_column("Nom", justify="left", style="#20b7f7")
         table.add_column("Score",style="#00fa9a")
         table.add_column("elo",justify="right", style="#d13cd6")

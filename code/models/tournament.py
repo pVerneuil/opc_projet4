@@ -15,9 +15,9 @@ class Tournament:
     ):
         self.name = name
         self.venue = venue
-        self.starting_date_tournanent = starting_date_tournament
+        self.starting_date_tournament = starting_date_tournament
         self.time_format = time_format
-        self.descrition = description
+        self.description = description
         self.number_of_rounds = number_of_rounds
         self.number_of_rounds_played = number_of_rounds_played
         self.players = []
@@ -34,9 +34,9 @@ class Tournament:
         return({
             'name': self.name, 
             'venue': self.venue,
-            'starting_date_tourmnnent': self.starting_date_tournanent ,
+            'starting_date_tournament': self.starting_date_tournament ,
             'time_format': self.time_format ,
-            'descrition': self.descrition,
+            'description': self.description,
             'number_of_rounds': self.number_of_rounds,
             'number_of_rounds_played': self.number_of_rounds_played,
             'players': player_id_list, 
@@ -59,7 +59,7 @@ class Tournament:
             tournament_data['time_format'],
             tournament_data['description'],
             tournament_data['number_of_rounds'],
-            tournament_data['number_of_rounds_play']
+            tournament_data['number_of_rounds_played']
         )
         this_tournament.players = players
         this_tournament.rounds = rounds

@@ -18,6 +18,12 @@ class DataController:
     def get_document_by_id(table, id):
         return table.get(doc_id=id)
 
+    def get_documents_by_ids(table, ids:list):
+        documents = []
+        for id in ids:
+            documents.append(DataController.get_document_by_id(table, id))
+        return documents
+
     def update_by_id(table, data, id):
         """update table by ID
 

@@ -7,13 +7,6 @@ class Round:
         self.name = name
         self.matchs = []
         
-    # def __init__(self, name, matchs = [], start_datetime = None, end_datetime = None) -> None:
-    #     self.name = name
-    #     self.matchs = matchs
-    #     self.start_datetime = start_datetime
-    #     self.end_datetime = end_datetime
-
-
     def register_match(self, joueur1: object, joueur2: object) -> None:
         match = tuple(([joueur1, 0], [joueur2, 0]))
         self.matchs.append(match)

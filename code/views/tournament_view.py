@@ -1,5 +1,9 @@
+from views.player_view import PlayerView
 from controllers.input_validation import *
 from models.template import *
+from rich.console import Console
+from rich.table import Table
+from controllers.data_controller import *
 
 create_tournament_questions = [
     Interface(
@@ -17,7 +21,7 @@ create_tournament_questions = [
         "Entrer la date de début du tournois (JJ/MM/AAAA):",
         validator=DateValidator,
     ).menu(),
-    Interface("input", "time_format", "Entrer le format de contrôle du temps:").menu(),
+    Interface("input", "time_format", "Entrer la cadence:").menu(),
     Interface(
         "input", "description", "Entrer une rapide description du tournois: "
     ).menu(),
@@ -29,27 +33,113 @@ create_tournament_questions = [
     ).menu(),
 ]
 class TournamentView:
-    def display_tournament(table_title : str, tournaments : list):
-        table = Table(title=table_title)
+    
+    def display_tournaments(tournaments : list, table_title : str,  display_players = False):
+        """display tournaments in a table
+
+        Args:
+            table_title (str): displayed title of the tables
+            tournaments (list): list of dictionaries from the database
+            display_players (bool, optional): True to display players in tounaments. Defaults to False.
+        """
+        table = Table(title=table_title, show_lines=True)
         
         table.add_column("ID",justify="right", style="#f5310a")
-        table.add_column("Nom",justify="right", style="#f5310a")
+        table.add_column("Nom",justify="left", style="#f5310a")
         table.add_column("Lieu", justify="left", style="#20b7f7")
         table.add_column("Date début", justify="left", style="#20b7f7")
-        table.add_column("Nombre de ronde",style="#00fa9a")
-        table.add_column("Ronde jouées",justify="right", style="#d13cd6")
-        table.add_column("Joueurs",justify="right", style="#d13cd6")
-        i = 1
+        table.add_column("Cadence", justify="left", style="#20b7f7")
+        table.add_column("Description", justify="left", style="#20b7f7")
+        table.add_column("Nombre \nde ronde",justify="center",style="#00fa9a")
+        table.add_column("Ronde \njouées",justify="center", style="#d13cd6")
+        if display_players:
+            table.add_column("Joueurs",justify="right", style="#d13cd6")
+
         for tournament in tournaments:
-            table.add_row(
-                    str(i),
-                    player.first_name[:15],
-                    player.last_name[:15],
-                    str(player.score),
-                    str(player.elo)
-            )
-            i += 1
+            if display_players:
+                players = []
+                for id in tournament["players"]:
+                    player = DataController.get_document_by_id(players_table,id)
+                    players.append(f"{player['first_name'][:15]} {player['last_name'][:15]}")
+                table.add_row(
+                            str(tournament.doc_id),
+                            tournament["name"],
+                            tournament["venue"],
+                            tournament["starting_date_tournament"],
+                            tournament["time_format"],
+                            tournament["description"][:40],
+                            str(tournament["number_of_rounds"]),
+                            str(tournament["number_of_rounds_played"]),
+                            "\n".join(players)
+                )
+            else :
+                table.add_row(
+                        str(tournament.doc_id),
+                        tournament["name"],
+                        tournament["venue"],
+                        tournament["starting_date_tournament"],
+                        tournament["time_format"],
+                        tournament["description"][:40],
+                        str(tournament["number_of_rounds"]),
+                        str(tournament["number_of_rounds_played"]),
+                )
         console = Console()
         console.print(table)
-# for player in this_tournament.players:
-#     print(f'id : {player.id_db}| score : {player.score} | elo {player.elo}')
+    def display_and_select_tournament(tournaments :list, table_title : str,selection_message :str, display_players = False):
+
+        """display tournament and allow to select one, returns the id of the selected tournament
+
+        Args:
+            tournaments (list): list of tournaments to display
+            table_title (str): title on top of the table by
+            selection_message (str): message displayed before selections
+            display_players (bool): True to display player. Default to False
+
+        Returns:
+            [int]: [selected tournament id]
+        """
+        tournaments_ids = []
+        for tournament in tournaments:
+            tournaments_ids.append(str(tournament.doc_id))
+        TournamentView.display_tournaments(tournaments, table_title, display_players)
+        list_to_select_from = Interface(
+            "list",
+            "selected_tournament",
+            selection_message,
+            choices = tournaments_ids
+        ).menu()
+        return int(prompt(list_to_select_from)['selected_tournament'])
+    
+    def report_players_in_tournament():
+        all_tournaments_data = DataController.fetch_all_data_from_table(
+            tournament_table
+            )
+        selected_tournament_id = TournamentView.display_and_select_tournament(
+            all_tournaments_data,
+            "Tournois enregistés",
+            "Selection l'id d'un tournois pour en afficher les joueurs:"
+            )
+        selected_tournament = DataController.get_document_by_id(
+            tournament_table,
+            selected_tournament_id
+        )
+        PlayerView.player_report(
+            DataController.get_documents_by_ids(
+                players_table,
+                selected_tournament["players"]
+            )
+        )
+    def report_rounds_and_matches():
+        all_tournaments_data = DataController.fetch_all_data_from_table(
+            tournament_table
+            )
+        selected_tournament_id = TournamentView.display_and_select_tournament(
+            all_tournaments_data,
+            "Tournois enregistés",
+            "Selectionez l'id d'un tournois pour en afficher les matchs et rounds:"
+            )
+        selected_tournament = DataController.get_document_by_id(
+            tournament_table,
+            selected_tournament_id
+        )
+        

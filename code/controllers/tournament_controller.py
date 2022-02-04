@@ -1,3 +1,4 @@
+from views.tournament_view import TournamentView
 from views.player_view import *
 from controllers.data_controller import *
 from views.round_view import RoundView
@@ -7,10 +8,7 @@ from models.player import Player
 from controllers.round_controller import Round_controller
 from tinydb.operations import add
 
-
 class TournamentController:
-    def save_tournament():
-        pass
 
     def instanciate_from_user_inputs(player_id_selected, tournament_inputs):
         this_tournament = Tournament(
@@ -79,3 +77,28 @@ class TournamentController:
                 {'number_of_rounds_played': tournament.number_of_rounds_played},
                 tournament_id)
             tournament_table.update(add('rounds', [this_round.serialize()]) ,doc_ids = [tournament_id])
+
+    def return_unfinished_tournaments():
+        unfinished_tournaments = []
+        for tournament in DataController.fetch_all_data_from_table(tournament_table) :
+            if tournament["number_of_rounds"] > tournament["number_of_rounds_played"]:
+                unfinished_tournaments.append(tournament)
+        return unfinished_tournaments
+
+    def load_and_play_tournament():
+        selected_tournament = TournamentView.display_and_select_tournament(
+            TournamentController.return_unfinished_tournaments(),
+            "Tournois non terminé(s)",
+            "Veuiller selectioner l'id d'un tournois à charger :",
+            True
+            )
+        TournamentController.play_tournament(
+            Tournament.deserialize(
+                DataController.get_document_by_id(
+                    tournament_table,
+                    selected_tournament
+                )
+            ),
+            selected_tournament
+        )
+
