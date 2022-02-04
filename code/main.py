@@ -1,4 +1,4 @@
-from views.menus_view import *
+from views.menus_view import main_menu
 from views.player_view import *
 from views.tournament_view import *
 from models.player import *

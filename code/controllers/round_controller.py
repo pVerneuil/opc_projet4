@@ -6,7 +6,7 @@ class Round_controller:
     def sort_player_list_by_score_then_elo(player_list):
         return player_list.sort(key=lambda x: (x.score, x.elo), reverse=True)
 
-    def create_matches_for_first_round(
+    def create_matchs_for_first_round(
         players_in_the_tournament: list, first_round: object
     ):
         Round_controller.sort_player_list_by_score_then_elo(players_in_the_tournament)
@@ -48,7 +48,7 @@ class Round_controller:
             round_checked += 1
         return have_met
 
-    def create_matches_for_this_round(
+    def create_matchs_for_this_round(
         player_in_the_tournament: list, current_round, rounds
     ):
         Round_controller.sort_player_list_by_score_then_elo(player_in_the_tournament)

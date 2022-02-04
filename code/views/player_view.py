@@ -73,7 +73,9 @@ class PlayerView:
             sort_on = "ranking"
             _reverse = True
             table_title = "Joueurs par Classement elo"
-        sorted_players = sorted(data, key=lambda d: d[sort_on], reverse=_reverse)
+        sorted_players = sorted(
+            data, key=lambda d: d[sort_on].upper(), reverse=_reverse
+        )
         while True:
             TableDisplay.display_players(table_title, sorted_players)
             if Interface.confirm("Retouner au menu principal?"):

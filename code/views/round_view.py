@@ -5,11 +5,16 @@ from rich.table import Table
 
 
 class RoundView:
-    def display_matches_in_this_round(round):
+    def display_matchs_in_this_round(round):
         print(f"=== Matchs du {round.name} ===")
         for match in round.matchs:
             print(
-                f"{match[0][0].first_name} {match[0][0].last_name} contre {match[1][0].first_name} {match[1][0].last_name}"
+                "{:<8}  {:<8} | contre | {:<8}  {:<8}".format(
+                    match[0][0].first_name,
+                    match[0][0].last_name,
+                    match[1][0].first_name,
+                    match[1][0].last_name,
+                )
             )
 
     def get_and_registrer_matchs_result(round):
