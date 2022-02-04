@@ -1,4 +1,3 @@
-
 from PyInquirer import prompt, Separator, Token, style_from_dict
 from controllers.input_validation import YesOrNoValidator
 
@@ -13,6 +12,7 @@ style = style_from_dict(
         Token.Question: "",
     }
 )
+
 
 class Interface:
     def __init__(self, type, name, message, choices=None, validator=None):

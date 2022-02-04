@@ -39,12 +39,11 @@ class GenderValidator(Validator):
         ok = re.match("^[MF]{1}$", document.text)
         if not ok:
             raise ValidationError(
-                message="Veuillez entrer M ou F.", 
-                cursor_position=len(document.text)
+                message="Veuillez entrer M ou F.", cursor_position=len(document.text)
             )  # Move
 
 
-class YesOrNoValidator(Validator): 
+class YesOrNoValidator(Validator):
     def validate(self, document):
         ok = re.match("^[ON]{1}$", document.text)
         if not ok:

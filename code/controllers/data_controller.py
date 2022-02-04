@@ -18,7 +18,7 @@ class DataController:
     def get_document_by_id(table, id):
         return table.get(doc_id=id)
 
-    def get_documents_by_ids(table, ids:list):
+    def get_documents_by_ids(table, ids: list):
         documents = []
         for id in ids:
             documents.append(DataController.get_document_by_id(table, id))
@@ -32,4 +32,4 @@ class DataController:
             data (dictionary): contain the key of the value to update and the new value (ex: {'value':2})
             id (int): id of the item to update and
         """
-        table.update(data,doc_ids = [id])
+        table.update(data, doc_ids=[id])

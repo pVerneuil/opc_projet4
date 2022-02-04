@@ -8,8 +8,8 @@ from models.player import Player
 from controllers.round_controller import Round_controller
 from tinydb.operations import add
 
-class TournamentController:
 
+class TournamentController:
     def instanciate_from_user_inputs(player_id_selected, tournament_inputs):
         this_tournament = Tournament(
             tournament_inputs["name"],
@@ -17,22 +17,20 @@ class TournamentController:
             tournament_inputs["starting_date_tournament"],
             tournament_inputs["time_format"],
             tournament_inputs["description"],
-            number_of_rounds=int(tournament_inputs["number_of_rounds"])
+            number_of_rounds=int(tournament_inputs["number_of_rounds"]),
         )
         for id in player_id_selected:
-            this_tournament.players.append(
-                Player.instantiate_from_db_by_id(id)
-            )
+            this_tournament.players.append(Player.instantiate_from_db_by_id(id))
         return this_tournament
-    
-    def play_tournament(tournament : object, tournament_id):
+
+    def play_tournament(tournament: object, tournament_id):
         if tournament.number_of_rounds_played == 0:
 
-            round1 = Round('round1')
+            round1 = Round("round1")
             tournament.rounds.append(round1)
             round1.set_date_and_time(True)
 
-            Round_controller.create_matches_for_first_round(tournament.players,round1)
+            Round_controller.create_matches_for_first_round(tournament.players, round1)
             RoundView.display_matches_in_this_round(round1)
 
             RoundView.get_and_registrer_matchs_result(round1)
@@ -43,24 +41,28 @@ class TournamentController:
             TableDisplay.display_players_score("Classement Ronde 1", tournament.players)
 
             DataController.update_by_id(
-                tournament_table ,
-                {'number_of_rounds_played': tournament.number_of_rounds_played},
-                tournament_id)
+                tournament_table,
+                {"number_of_rounds_played": tournament.number_of_rounds_played},
+                tournament_id,
+            )
             DataController.update_by_id(
-                tournament_table ,
-                {'rounds': [round1.serialize()] },
-                tournament_id)
-            
-        while tournament.number_of_rounds_played > 0 and tournament.number_of_rounds_played < tournament.number_of_rounds :
+                tournament_table, {"rounds": [round1.serialize()]}, tournament_id
+            )
 
-            this_round = Round(f'round{tournament.number_of_rounds_played+1}')
+        while (
+            tournament.number_of_rounds_played > 0
+            and tournament.number_of_rounds_played < tournament.number_of_rounds
+        ):
+
+            this_round = Round(f"round{tournament.number_of_rounds_played+1}")
             tournament.rounds.append(this_round)
             this_round.set_date_and_time(True)
 
             Round_controller.create_matches_for_this_round(
                 tournament.players,
                 tournament.rounds[tournament.number_of_rounds_played],
-                tournament.rounds)
+                tournament.rounds,
+            )
             RoundView.display_matches_in_this_round(this_round)
 
             RoundView.get_and_registrer_matchs_result(this_round)
@@ -68,19 +70,27 @@ class TournamentController:
             tournament.number_of_rounds_played += 1
 
             Round_controller.sort_player_list_by_score_then_elo(tournament.players)
-            if tournament.number_of_rounds_played == tournament.number_of_rounds :
-                TableDisplay.display_players_score(f"Classement Final", tournament.players)
+            if tournament.number_of_rounds_played == tournament.number_of_rounds:
+                TableDisplay.display_players_score(
+                    f"Classement Final", tournament.players
+                )
             else:
-                TableDisplay.display_players_score(f"Classement Ronde {tournament.number_of_rounds_played}", tournament.players)
+                TableDisplay.display_players_score(
+                    f"Classement Ronde {tournament.number_of_rounds_played}",
+                    tournament.players,
+                )
             DataController.update_by_id(
-                tournament_table ,
-                {'number_of_rounds_played': tournament.number_of_rounds_played},
-                tournament_id)
-            tournament_table.update(add('rounds', [this_round.serialize()]) ,doc_ids = [tournament_id])
+                tournament_table,
+                {"number_of_rounds_played": tournament.number_of_rounds_played},
+                tournament_id,
+            )
+            tournament_table.update(
+                add("rounds", [this_round.serialize()]), doc_ids=[tournament_id]
+            )
 
     def return_unfinished_tournaments():
         unfinished_tournaments = []
-        for tournament in DataController.fetch_all_data_from_table(tournament_table) :
+        for tournament in DataController.fetch_all_data_from_table(tournament_table):
             if tournament["number_of_rounds"] > tournament["number_of_rounds_played"]:
                 unfinished_tournaments.append(tournament)
         return unfinished_tournaments
@@ -90,15 +100,11 @@ class TournamentController:
             TournamentController.return_unfinished_tournaments(),
             "Tournois non terminé(s)",
             "Veuiller selectioner l'id d'un tournois à charger :",
-            True
-            )
+            True,
+        )
         TournamentController.play_tournament(
             Tournament.deserialize(
-                DataController.get_document_by_id(
-                    tournament_table,
-                    selected_tournament
-                )
+                DataController.get_document_by_id(tournament_table, selected_tournament)
             ),
-            selected_tournament
+            selected_tournament,
         )
-
