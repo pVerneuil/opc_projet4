@@ -1,7 +1,8 @@
-from models.template import *
-from controllers.data_controller import *
+from models.template import Interface, style
+from controllers.data_controller import DataController, players_table
 from rich.console import Console
 from rich.table import Table
+from PyInquirer import prompt
 
 
 class RoundView:

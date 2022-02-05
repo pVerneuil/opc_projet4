@@ -1,4 +1,5 @@
-from models.template import *
+from models.template import Interface
+from PyInquirer import Separator
 
 main_menu = Interface(
     "list",
@@ -13,7 +14,7 @@ main_menu = Interface(
         "Modifier le classement elo des joueurs",
         Separator("= Rapports ="),
         "Liste de tout les joueurs",
-        "Liste des tounois",
+        "Liste des tournois",
         "Liste des joueurs d'un tournois",
         "Liste des Rondes et Matchs d'un tournois",
         Separator(),

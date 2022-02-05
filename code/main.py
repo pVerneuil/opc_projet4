@@ -1,9 +1,13 @@
+from controllers.data_controller import DataController, tournament_table, players_table
+from controllers.tournament_controller import TournamentController
 from views.menus_view import main_menu
-from views.player_view import *
-from views.tournament_view import *
-from models.player import *
-from controllers.tournament_controller import *
-
+from views.round_view import RoundView
+from views.player_view import TableDisplay, PlayerView
+from views.tournament_view import create_tournament_questions, TournamentView
+from models.template import style, Interface
+from models.tournament import Tournament
+from models.player import Player
+from PyInquirer import prompt
 
 while True:
     all_players_data = DataController.fetch_all_data_from_table(players_table)
@@ -50,7 +54,7 @@ while True:
     if main_menu_choice["main_menu_choice"] == "Liste de tout les joueurs":
         PlayerView.player_report(all_players_data)
 
-    if main_menu_choice["main_menu_choice"] == "Liste des tounois":
+    if main_menu_choice["main_menu_choice"] == "Liste des tournois":
         TournamentView.display_tournaments(all_tournaments_data, "Tournois enregistés")
     if main_menu_choice["main_menu_choice"] == "Liste des joueurs d'un tournois":
         TournamentView.report_players_in_tournament()

@@ -1,6 +1,4 @@
 from datetime import datetime
-from logging import raiseExceptions
-from models.player import Player
 
 
 class Round:

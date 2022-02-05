@@ -1,9 +1,14 @@
 from views.player_view import PlayerView
-from controllers.input_validation import *
-from models.template import *
+from models.template import Interface
+from controllers.input_validation import (
+    StringValidator,
+    DateValidator,
+    PositiveIntegerValidator,
+)
+from controllers.data_controller import DataController, players_table, tournament_table
 from rich.console import Console
 from rich.table import Table
-from controllers.data_controller import *
+from PyInquirer import prompt
 
 create_tournament_questions = [
     Interface(
@@ -132,17 +137,4 @@ class TournamentView:
             DataController.get_documents_by_ids(
                 players_table, selected_tournament["players"]
             )
-        )
-
-    def report_rounds_and_matches():
-        all_tournaments_data = DataController.fetch_all_data_from_table(
-            tournament_table
-        )
-        selected_tournament_id = TournamentView.display_and_select_tournament(
-            all_tournaments_data,
-            "Tournois enregistés",
-            "Selectionez l'id d'un tournois pour en afficher les matchs et rounds:",
-        )
-        selected_tournament = DataController.get_document_by_id(
-            tournament_table, selected_tournament_id
         )

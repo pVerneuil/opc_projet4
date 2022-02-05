@@ -25,7 +25,7 @@ class PositiveIntegerValidator(Validator):
 class DateValidator(Validator):
     def validate(self, document):
         ok = re.match(
-            "^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$", document.text
+            "^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$", document.text
         )
         if not ok:
             raise ValidationError(

@@ -1,4 +1,4 @@
-from PyInquirer import prompt, Separator, Token, style_from_dict
+from PyInquirer import prompt, Token, style_from_dict
 from controllers.input_validation import YesOrNoValidator
 
 style = style_from_dict(
@@ -24,9 +24,9 @@ class Interface:
 
     def menu(self):
         menu = {"type": self.type, "name": self.name, "message": self.message}
-        if self.validator != None:
+        if self.validator is not None:
             menu.update({"validate": self.validator})
-        if self.choices != None:
+        if self.choices is not None:
             menu.update({"choices": self.choices})
         return menu
 

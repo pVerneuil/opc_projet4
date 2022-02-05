@@ -1,4 +1,4 @@
-from tinydb import *
+from tinydb import TinyDB
 
 db = TinyDB("data/db.json")
 players_table = db.table("players")

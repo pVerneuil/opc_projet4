@@ -1,4 +1,4 @@
-from controllers.data_controller import *
+from controllers.data_controller import DataController, players_table
 import random
 
 
@@ -11,8 +11,8 @@ class Testing:
             c = 1000 + i
             dict.append(
                 {
-                    "first_name": f"john{i}",
-                    "last_name": f"doe{i}",
+                    "first_name": f"John{i}",
+                    "last_name": f"Doe{i}",
                     "date_of_birth": f"01/01/{b}",
                     "gender": "M",
                     "ranking": int(f"{c}"),

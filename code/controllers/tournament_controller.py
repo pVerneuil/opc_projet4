@@ -1,11 +1,11 @@
-from views.tournament_view import TournamentView
-from views.player_view import *
-from controllers.data_controller import *
-from views.round_view import RoundView
-from models.round import Round
 from models.tournament import Tournament
 from models.player import Player
+from models.round import Round
 from controllers.round_controller import Round_controller
+from controllers.data_controller import DataController, tournament_table
+from views.round_view import RoundView
+from views.player_view import TableDisplay
+from views.tournament_view import TournamentView
 from tinydb.operations import add
 
 
@@ -51,7 +51,7 @@ class TournamentController:
             Round_controller.sort_player_list_by_score_then_elo(tournament.players)
             if tournament.number_of_rounds_played == tournament.number_of_rounds:
                 TableDisplay.display_players_score(
-                    f"Classement Final", tournament.players
+                    "Classement Final", tournament.players
                 )
             else:
                 TableDisplay.display_players_score(

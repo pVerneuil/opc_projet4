@@ -1,4 +1,5 @@
-from controllers.data_controller import *
+from controllers.data_controller import DataController
+from controllers.data_controller import players_table
 
 
 class Player:

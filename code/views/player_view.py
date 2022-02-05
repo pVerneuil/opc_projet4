@@ -1,9 +1,10 @@
-from controllers.input_validation import *
-from models.template import *
-from controllers.data_controller import *
+from controllers.input_validation import StringValidator, DateValidator, GenderValidator, PositiveIntegerValidator
+from controllers.data_controller import DataController, players_table
+from models.template import Interface, style
 from rich.console import Console
 from rich.table import Table
-
+from PyInquirer import prompt, Separator
+import re
 
 add_player_questions = [
     Interface(
@@ -66,19 +67,18 @@ class PlayerView:
             ).menu()
         )
         if choice["player_rapport_choice"] == "Ordre alphabétique":
-            sort_on = "last_name"
-            _reverse = False
             table_title = "Joueurs par Ordre alphabétique"
+            sorted_players = sorted(
+                data, key=lambda d: d["last_name"].upper()
+            )
         if choice["player_rapport_choice"] == "Classement":
-            sort_on = "ranking"
-            _reverse = True
             table_title = "Joueurs par Classement elo"
-        sorted_players = sorted(
-            data, key=lambda d: d[sort_on].upper(), reverse=_reverse
-        )
+            sorted_players = sorted(
+                data, key=lambda d: d["ranking"], reverse=True
+            )
         while True:
             TableDisplay.display_players(table_title, sorted_players)
-            if Interface.confirm("Retouner au menu principal?"):
+            if Interface.confirm("Retouner au menu principal? (O/N)"):
                 break
 
 
