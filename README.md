@@ -1,6 +1,7 @@
 # Projet 4 : Développez un programme logiciel en Python
 
 This Python program allow to manage chess tournament.
+Please Python 3.7 or 3.8 as latest version of python might have issue with PyInquirer.
 
 ## Getting Started
 
