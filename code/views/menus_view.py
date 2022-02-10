@@ -1,4 +1,4 @@
-from models.template import Interface
+from views.template import Interface
 from PyInquirer import Separator
 
 main_menu = Interface(

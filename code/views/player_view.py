@@ -1,6 +1,6 @@
 from controllers.input_validation import StringValidator, DateValidator, GenderValidator, PositiveIntegerValidator
 from controllers.data_controller import DataController, players_table
-from models.template import Interface, style
+from views.template import Interface, style
 from rich.console import Console
 from rich.table import Table
 from PyInquirer import prompt, Separator

@@ -4,7 +4,7 @@ from views.menus_view import main_menu
 from views.round_view import RoundView
 from views.player_view import TableDisplay, PlayerView
 from views.tournament_view import create_tournament_questions, TournamentView
-from models.template import style, Interface
+from views.template import style, Interface
 from models.tournament import Tournament
 from models.player import Player
 from PyInquirer import prompt

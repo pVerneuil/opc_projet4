@@ -1,4 +1,4 @@
-from models.template import Interface, style
+from views.template import Interface, style
 from controllers.data_controller import DataController, players_table
 from rich.console import Console
 from rich.table import Table
